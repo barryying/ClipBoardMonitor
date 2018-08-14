@@ -1,0 +1,12 @@
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\Debug\ClipBoardMonitor.exe.config
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\Debug\ClipBoardMonitor.exe
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\Debug\ClipBoardMonitor.pdb
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.csprojResolveAssemblyReference.cache
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.Form1.resources
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.Properties.Resources.resources
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.csproj.GenerateResource.Cache
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.exe
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.pdb
+C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\bin\Debug\ClipBoardMonitor.exe.config
+C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.exe
+C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.pdb
