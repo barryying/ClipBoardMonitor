@@ -46,7 +46,7 @@ namespace ClipBoardMonitor
                 DelectDir(imageDirectory);
             }
             // 添加ListView表头标题
-            this.listView1.Columns.Add("序号", 40, HorizontalAlignment.Left); //添加标题
+            this.listView1.Columns.Add("序号", 60, HorizontalAlignment.Left); //添加标题
             this.listView1.Columns.Add("复制的文本", 400, HorizontalAlignment.Left);
             this.listView1.View = System.Windows.Forms.View.Details;
             
