@@ -57,9 +57,8 @@ namespace ClipBoardMonitor
             
             mNextClipBoardViewerHWnd = SetClipboardViewer(this.Handle);
         }
-        //重写wndproc方法  定义热键使用
-        #region Message Process
-        //Override WndProc to get messages...
+
+        #region 重写wndproc方法获取Message  定义热键使用
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
