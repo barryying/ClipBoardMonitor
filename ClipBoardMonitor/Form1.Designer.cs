@@ -40,6 +40,7 @@
             this.listView2 = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.打开图片存放位置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +78,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.清空历史ToolStripMenuItem});
+            this.清空历史ToolStripMenuItem,
+            this.打开图片存放位置ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1142, 28);
@@ -135,6 +137,13 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "* 双击当前行可打开图片并复制至剪贴板";
             // 
+            // 打开图片存放位置ToolStripMenuItem
+            // 
+            this.打开图片存放位置ToolStripMenuItem.Name = "打开图片存放位置ToolStripMenuItem";
+            this.打开图片存放位置ToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
+            this.打开图片存放位置ToolStripMenuItem.Text = "打开图片存放位置";
+            this.打开图片存放位置ToolStripMenuItem.Click += new System.EventHandler(this.打开图片存放位置ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -172,6 +181,7 @@
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem 打开图片存放位置ToolStripMenuItem;
     }
 }
 

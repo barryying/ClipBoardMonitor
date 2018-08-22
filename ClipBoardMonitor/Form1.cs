@@ -115,21 +115,21 @@ namespace ClipBoardMonitor
 
         private void AddTxtListView(string value)
         {
-            if (listView1.Items.Count > 0)
+            if (!value.TrimStart().TrimEnd().Equals(""))
             {
-                foreach (ListViewItem lt in listView1.Items)
+                if (listView1.Items.Count > 0)
                 {
-                    //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
-                    if (lt.SubItems[1].Text.Equals(value))     //比较每一行记录的第2个字段值
+                    foreach (ListViewItem lt in listView1.Items)
                     {
-                        this.label1.Text = "这项记录已存在！";
-                        return;
+                        //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
+                        if (lt.SubItems[1].Text.Equals(value))     //比较每一行记录的第2个字段值
+                        {
+                            this.label1.Text = "这项记录已存在！";
+                            return;
+                        }
                     }
                 }
-            }
 
-            if (!value.Equals(""))
-            {
                 this.listView1.BeginUpdate(); //数据更新，UI暂时挂起
 
                 // 添加序号
@@ -150,36 +150,35 @@ namespace ClipBoardMonitor
 
         private void AddPictureListView(Image image)
         {
-
-            if (listView2.Items.Count > 0)
+            if (image != null)
             {
-                foreach (ListViewItem lt in listView2.Items)
+                if (listView2.Items.Count > 0)
                 {
-                    string imagePath = imageDirectory + "\\image" + (lt.ImageIndex + 1).ToString() + ".png";
-                    //Image imageSource = Image.FromFile(imagePath);
-                    SimilarPhoto similarPhotoSource = new SimilarPhoto(imagePath);
-                    string imageSourceHash = similarPhotoSource.GetHash();
-
-                    using (MemoryStream ms = new MemoryStream())
+                    foreach (ListViewItem lt in listView2.Items)
                     {
-                        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                        SimilarPhoto similarPhotoAdd = new SimilarPhoto(ms);
-                        string imageHash = similarPhotoAdd.GetHash();
+                        string imagePath = imageDirectory + "\\image" + (lt.ImageIndex + 1).ToString() + ".png";
+                        //Image imageSource = Image.FromFile(imagePath);
+                        SimilarPhoto similarPhotoSource = new SimilarPhoto(imagePath);
+                        string imageSourceHash = similarPhotoSource.GetHash();
 
-                        //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
-                        if (SimilarPhoto.CalcSimilarDegree(imageSourceHash, imageHash) <= 5)
+                        using (MemoryStream ms = new MemoryStream())
                         {
-                            this.label1.Text = "这项记录已存在！";
-                            ms.Close();
-                            ms.Dispose();
-                            return;
+                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            SimilarPhoto similarPhotoAdd = new SimilarPhoto(ms);
+                            string imageHash = similarPhotoAdd.GetHash();
+
+                            //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
+                            if (SimilarPhoto.CalcSimilarDegree(imageSourceHash, imageHash) <= 5)
+                            {
+                                this.label1.Text = "这项记录已存在！";
+                                ms.Close();
+                                ms.Dispose();
+                                return;
+                            }
                         }
                     }
                 }
-            }
 
-            if (image != null)
-            {
                 //listView2.Items.Clear();
                 //imageList1.Images.Clear();
                 this.listView2.BeginUpdate(); //数据更新，UI暂时挂起
@@ -221,26 +220,6 @@ namespace ClipBoardMonitor
             //}
         }
 
-        private void 清空历史ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult dr = MessageBox.Show("清空后将不保留所有内容(包括本地存放的图片文件)，是否清空?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-
-            if (dr == DialogResult.OK)   //如果单击“是”按钮
-            {
-                this.listView1.Items.Clear();
-                this.listView2.Items.Clear();
-                this.imageList1.Images.Clear();
-                if (Directory.Exists(imageDirectory))
-                {
-                    DelectDir(imageDirectory);
-                }
-                this.label1.Text = "已清空了所有记录！";
-            }
-            else if (dr == DialogResult.Cancel)
-            {
-                this.label1.Text = "您取消了清空历史的操作！";
-            }
-        }
         public static void DelectDir(string srcPath)
         {
             try
@@ -425,5 +404,30 @@ namespace ClipBoardMonitor
         }
         #endregion
 
+        private void 清空历史ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("清空后将不保留所有内容(包括本地存放的图片文件)，是否清空?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+
+            if (dr == DialogResult.OK)   //如果单击“是”按钮
+            {
+                this.listView1.Items.Clear();
+                this.listView2.Items.Clear();
+                this.imageList1.Images.Clear();
+                if (Directory.Exists(imageDirectory))
+                {
+                    DelectDir(imageDirectory);
+                }
+                this.label1.Text = "已清空了所有记录！";
+            }
+            else if (dr == DialogResult.Cancel)
+            {
+                this.label1.Text = "您取消了清空历史的操作！";
+            }
+        }
+        private void 打开图片存放位置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("ExpLorer", imageDirectory);
+            this.label1.Text = "您打开了图片存放位置！";
+        }
     }
 }
