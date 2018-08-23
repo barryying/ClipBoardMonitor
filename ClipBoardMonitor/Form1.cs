@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,12 +32,21 @@ namespace ClipBoardMonitor
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
         #endregion
-
         private string imageDirectory = Application.StartupPath + "\\Images";
 
+        string startuppath = Application.StartupPath.Replace(@"\\", @"\");
+        RegistryKey RKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+        
         public Form1()
         {
             InitializeComponent();
+
+            // 添加到 当前登陆用户的 注册表启动项
+            RKey.SetValue("ClipBoardMonitor", startuppath + @"\ClipBoardMonitor.exe");
+
+            //// 添加到 所有用户的 注册表启动项
+            //RegistryKey RKey = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+            //RKey.SetValue("AppName", @"C:\AppName.exe");
 
             x = this.Width;
             y = this.Height;
@@ -428,6 +438,21 @@ namespace ClipBoardMonitor
         {
             System.Diagnostics.Process.Start("ExpLorer", imageDirectory);
             this.label1.Text = "您打开了图片存放位置！";
+        }
+
+        private void 开机启动ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if(开机启动ToolStripMenuItem.Checked == false)
+            {
+                RKey.DeleteValue("ClipBoardMonitor");
+                this.label1.Text = "您修改了开机不启动！";
+            }
+            else
+            {
+                // 添加到 当前登陆用户的 注册表启动项
+                RKey.SetValue("ClipBoardMonitor", startuppath + @"\ClipBoardMonitor.exe");
+                this.label1.Text = "您修改了开机启动！";
+            }
         }
     }
 }

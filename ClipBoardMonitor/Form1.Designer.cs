@@ -35,12 +35,14 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.清空历史ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开图片存放位置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.listView2 = new System.Windows.Forms.ListView();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.打开图片存放位置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.是否开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,7 +81,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.清空历史ToolStripMenuItem,
-            this.打开图片存放位置ToolStripMenuItem});
+            this.打开图片存放位置ToolStripMenuItem,
+            this.是否开机启动ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1142, 28);
@@ -92,6 +95,13 @@
             this.清空历史ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.清空历史ToolStripMenuItem.Text = "清空历史";
             this.清空历史ToolStripMenuItem.Click += new System.EventHandler(this.清空历史ToolStripMenuItem_Click);
+            // 
+            // 打开图片存放位置ToolStripMenuItem
+            // 
+            this.打开图片存放位置ToolStripMenuItem.Name = "打开图片存放位置ToolStripMenuItem";
+            this.打开图片存放位置ToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
+            this.打开图片存放位置ToolStripMenuItem.Text = "打开图片存放位置";
+            this.打开图片存放位置ToolStripMenuItem.Click += new System.EventHandler(this.打开图片存放位置ToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -137,12 +147,23 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "* 双击当前行可打开图片并复制至剪贴板";
             // 
-            // 打开图片存放位置ToolStripMenuItem
+            // 是否开机启动ToolStripMenuItem
             // 
-            this.打开图片存放位置ToolStripMenuItem.Name = "打开图片存放位置ToolStripMenuItem";
-            this.打开图片存放位置ToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
-            this.打开图片存放位置ToolStripMenuItem.Text = "打开图片存放位置";
-            this.打开图片存放位置ToolStripMenuItem.Click += new System.EventHandler(this.打开图片存放位置ToolStripMenuItem_Click);
+            this.是否开机启动ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.开机启动ToolStripMenuItem});
+            this.是否开机启动ToolStripMenuItem.Name = "是否开机启动ToolStripMenuItem";
+            this.是否开机启动ToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
+            this.是否开机启动ToolStripMenuItem.Text = "是否开机启动";
+            // 
+            // 开机启动ToolStripMenuItem
+            // 
+            this.开机启动ToolStripMenuItem.Checked = true;
+            this.开机启动ToolStripMenuItem.CheckOnClick = true;
+            this.开机启动ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.开机启动ToolStripMenuItem.Name = "开机启动ToolStripMenuItem";
+            this.开机启动ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.开机启动ToolStripMenuItem.Text = "开机启动";
+            this.开机启动ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.开机启动ToolStripMenuItem_CheckedChanged);
             // 
             // Form1
             // 
@@ -182,6 +203,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem 打开图片存放位置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 是否开机启动ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 开机启动ToolStripMenuItem;
     }
 }
 
