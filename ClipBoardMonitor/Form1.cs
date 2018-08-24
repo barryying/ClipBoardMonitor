@@ -48,6 +48,7 @@ namespace ClipBoardMonitor
             //RegistryKey RKey = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
             //RKey.SetValue("AppName", @"C:\AppName.exe");
 
+            //控件大小随窗体大小等比例缩放 初始化
             x = this.Width;
             y = this.Height;
             setTag(this);
@@ -164,6 +165,7 @@ namespace ClipBoardMonitor
             {
                 if (listView2.Items.Count > 0)
                 {
+                    int similarcount = 0;
                     foreach (ListViewItem lt in listView2.Items)
                     {
                         string imagePath = imageDirectory + "\\image" + (lt.ImageIndex + 1).ToString() + ".png";
@@ -180,10 +182,21 @@ namespace ClipBoardMonitor
                             //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
                             if (SimilarPhoto.CalcSimilarDegree(imageSourceHash, imageHash) <= 5)
                             {
-                                this.label1.Text = "这项记录已存在！";
-                                ms.Close();
-                                ms.Dispose();
-                                return;
+                                similarcount++;
+                                DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                                if (dr == DialogResult.OK)   //如果单击“是”按钮
+                                {
+                                    //继续保存
+                                }
+                                else if (dr == DialogResult.Cancel)
+                                {
+                                    //不保存
+                                    this.label1.Text = "这项记录已存在！";
+                                    ms.Close();
+                                    ms.Dispose();
+                                    return;
+                                }
                             }
                         }
                     }
@@ -453,6 +466,91 @@ namespace ClipBoardMonitor
                 RKey.SetValue("ClipBoardMonitor", startuppath + @"\ClipBoardMonitor.exe");
                 this.label1.Text = "您修改了开机启动！";
             }
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            //ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+            //ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem("删除此条记录");
+            //contextMenuStrip.Items.Add(toolStripMenuItem);
+            //鼠标右键
+            if (e.Button == MouseButtons.Right)
+            {
+                //filesList.ContextMenuStrip = contextMenuStrip1;
+                //选中列表中数据才显示 空白处不显示
+                String fileName = listView1.SelectedItems[0].Text; //获取选中文件名
+                Point p = new Point(e.X, e.Y);
+                contextMenuStrip1.Show(listView1, p);
+            }
+        }
+
+        private void 删除此条记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.listView1.SelectedItems)
+            {
+                if (item.Selected)
+                {
+                    item.Remove();
+                }
+            }
+            //重新排序
+            for (int i = 0; i < listView1.Items.Count; i++)
+            {
+                listView1.Items[i].Text = (i + 1).ToString();
+            }
+            listView1.Refresh(); //删除结束后刷新listView
+        }
+        
+        private void listView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = this.listView1.GetItemAt(e.X, e.Y);
+            if (item != null)
+            {
+                toolTip1.Show(item.SubItems[1].Text, listView1, new Point(e.X + 15, e.Y + 15), 1000);
+                toolTip1.Active = true;
+            }
+            else
+            {
+                toolTip1.Active = false;
+            }
+
+            bool iscontains = false;
+            for (int i = 0; i < listView1.Items.Count; i++)
+            {
+                Rectangle rec = listView1.Items[i].GetBounds(ItemBoundsPortion.Entire);
+                if (rec.Contains(e.Location))
+                {
+                    iscontains = true;
+                    break;
+                }
+            }
+            if (iscontains)
+            {
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void listView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = this.listView1.GetItemAt(e.X, e.Y);
+            if (item != null)
+            {
+                item.Selected = true;
+            }
+
+            //Point curPos = this.listView1.PointToClient(Control.MousePosition);
+            //ListViewItem lvwItem = this.listView1.GetItemAt(curPos.X, curPos.Y);
+
+
+            //if (lvwItem != null)
+            //{
+            //    lvwItem.Checked = !lvwItem.Checked;
+            //    listView1.Refresh();
+            //}
         }
     }
 }
