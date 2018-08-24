@@ -36,6 +36,7 @@ namespace ClipBoardMonitor
 
         string startuppath = Application.StartupPath.Replace(@"\\", @"\");
         RegistryKey RKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+        bool isdoubleclicked = false;
         
         public Form1()
         {
@@ -182,23 +183,30 @@ namespace ClipBoardMonitor
                             //MessageBox.Show(Convert.ToString(lt.SubItems[1].Text));
                             if (SimilarPhoto.CalcSimilarDegree(imageSourceHash, imageHash) <= 5)
                             {
-                                similarcount++;
-                                DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-                                if (dr == DialogResult.OK)   //如果单击“是”按钮
-                                {
-                                    //继续保存
-                                }
-                                else if (dr == DialogResult.Cancel)
-                                {
-                                    //不保存
-                                    this.label1.Text = "这项记录已存在！";
-                                    ms.Close();
-                                    ms.Dispose();
-                                    return;
-                                }
+                                similarcount++;                                
                             }
                         }
+                    }
+                    if (!isdoubleclicked)
+                    {
+                        DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                        if (dr == DialogResult.OK)   //如果单击“是”按钮
+                        {
+                            //继续保存
+                        }
+                        else if (dr == DialogResult.Cancel)
+                        {
+                            //不保存
+                            this.label1.Text = "这项记录已存在！";
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        //不保存
+                        this.label1.Text = "这项记录已存在！";
+                        return;
                     }
                 }
 
@@ -283,6 +291,8 @@ namespace ClipBoardMonitor
             if (this.listView2.SelectedItems.Count == 0)
                 return;
 
+            //标记双击
+            isdoubleclicked = true;
             //前提，listview禁止多选
             ListViewItem currentRow = listView2.SelectedItems[0];
             //Image image = currentRow.ImageList.Images[currentRow.ImageIndex];
@@ -315,6 +325,7 @@ namespace ClipBoardMonitor
             //pictureBox1.Image = image;
             //pictureBox1.Update();
             this.label1.Text = "已复制到剪贴板！";
+            isdoubleclicked = false;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
