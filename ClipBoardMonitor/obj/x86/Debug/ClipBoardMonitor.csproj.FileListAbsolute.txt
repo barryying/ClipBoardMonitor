@@ -1,0 +1,9 @@
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\x86\Debug\ClipBoardMonitor.exe.config
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\x86\Debug\ClipBoardMonitor.exe
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\bin\x86\Debug\ClipBoardMonitor.pdb
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.csprojResolveAssemblyReference.cache
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.Form1.resources
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.Properties.Resources.resources
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.csproj.GenerateResource.Cache
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.exe
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\x86\Debug\ClipBoardMonitor.pdb

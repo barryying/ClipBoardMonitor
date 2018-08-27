@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
+//using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClipBoardMonitor
@@ -41,6 +42,12 @@ namespace ClipBoardMonitor
         public Form1()
         {
             InitializeComponent();
+
+            if (!Is64Bit())
+            {
+                //MessageBox.Show("您的系统是32位系统,可能不支持此软件！");
+                //Application.Exit();
+            }
 
             // 添加到 当前登陆用户的 注册表启动项
             RKey.SetValue("ClipBoardMonitor", startuppath + @"\ClipBoardMonitor.exe");
@@ -127,7 +134,8 @@ namespace ClipBoardMonitor
 
         private void AddTxtListView(string value)
         {
-            if (!value.TrimStart().TrimEnd().Equals(""))
+            value = value.TrimStart().TrimEnd();
+            if (!value.Equals(""))
             {
                 if (listView1.Items.Count > 0)
                 {
@@ -149,7 +157,7 @@ namespace ClipBoardMonitor
                 lvi.Text = (this.listView1.Items.Count + 1).ToString();
 
                 // 添加子项
-                lvi.SubItems.Add(value.TrimStart().TrimEnd());
+                lvi.SubItems.Add(value);
                 this.listView1.Items.Add(lvi);
 
                 this.label1.Text = "添加了一个文本！";
@@ -189,18 +197,22 @@ namespace ClipBoardMonitor
                     }
                     if (!isdoubleclicked)
                     {
-                        DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if(similarcount > 0)
+                        {
+                            DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
-                        if (dr == DialogResult.OK)   //如果单击“是”按钮
-                        {
-                            //继续保存
+                            if (dr == DialogResult.OK)   //如果单击“是”按钮
+                            {
+                                //继续保存
+                            }
+                            else if (dr == DialogResult.Cancel)
+                            {
+                                //不保存
+                                this.label1.Text = "这项记录已存在！";
+                                return;
+                            }
                         }
-                        else if (dr == DialogResult.Cancel)
-                        {
-                            //不保存
-                            this.label1.Text = "这项记录已存在！";
-                            return;
-                        }
+                        
                     }
                     else
                     {
@@ -563,5 +575,50 @@ namespace ClipBoardMonitor
             //    listView1.Refresh();
             //}
         }
+
+        private void listView2_MouseClick(object sender, MouseEventArgs e)
+        {
+            //鼠标右键
+            if (e.Button == MouseButtons.Right)
+            {
+                //filesList.ContextMenuStrip = contextMenuStrip1;
+                //选中列表中数据才显示 空白处不显示
+                String fileName = listView2.SelectedItems[0].Text; //获取选中文件名
+                Point p = new Point(e.X, e.Y);
+                contextMenuStrip2.Show(listView2, p);
+            }
+        }
+
+        private void 删除此条记录ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.listView2.SelectedItems)
+            {
+                if (item.Selected)
+                {
+                    item.Remove();
+                    string imageindex = (item.ImageIndex + 1).ToString();
+                    File.Delete(imageDirectory + "\\image" + imageindex + ".png");
+                }
+            }
+            ////重新排序
+            //for (int i = 0; i < listView2.Items.Count; i++)
+            //{
+            //    listView2.Items[i].ImageIndex = i;
+            //}
+            listView2.Refresh(); //删除结束后刷新listView
+        }
+
+        #region 判断系统是x86还是x64位
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWow64Process([In] IntPtr hProcess, [Out] out bool lpSystemInfo);
+        
+        private static bool Is64Bit()
+        {
+            bool retVal;
+            IsWow64Process(Process.GetCurrentProcess().Handle, out retVal);
+            return retVal;
+        }
+        #endregion
     }
 }
