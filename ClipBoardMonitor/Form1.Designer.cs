@@ -48,14 +48,18 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除此条记录ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(1193, 365);
+            this.richTextBox1.Location = new System.Drawing.Point(1214, 369);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(227, 112);
             this.richTextBox1.TabIndex = 2;
@@ -76,9 +80,9 @@
             // listView1
             // 
             this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(12, 53);
+            this.listView1.Location = new System.Drawing.Point(7, 24);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(660, 550);
+            this.listView1.Size = new System.Drawing.Size(735, 535);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
@@ -95,7 +99,7 @@
             this.是否开机启动ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1142, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1202, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -135,7 +139,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label1.Location = new System.Drawing.Point(606, 35);
+            this.label1.Location = new System.Drawing.Point(695, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 15);
             this.label1.TabIndex = 6;
@@ -148,9 +152,9 @@
             // 
             // listView2
             // 
-            this.listView2.Location = new System.Drawing.Point(690, 53);
+            this.listView2.Location = new System.Drawing.Point(6, 24);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(440, 550);
+            this.listView2.Size = new System.Drawing.Size(409, 535);
             this.listView2.TabIndex = 7;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
@@ -160,21 +164,21 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(16, 613);
+            this.label2.Location = new System.Drawing.Point(26, 615);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(233, 15);
+            this.label2.Size = new System.Drawing.Size(278, 15);
             this.label2.TabIndex = 8;
-            this.label2.Text = "* 双击当前行可复制文本至剪贴板";
+            this.label2.Text = "* 双击上面的行记录可复制文本至剪贴板";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(694, 616);
+            this.label3.Location = new System.Drawing.Point(792, 616);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(278, 15);
+            this.label3.Size = new System.Drawing.Size(293, 15);
             this.label3.TabIndex = 9;
-            this.label3.Text = "* 双击当前行可打开图片并复制至剪贴板";
+            this.label3.Text = "* 双击图片可打开查看大图并复制至剪贴板";
             // 
             // contextMenuStrip1
             // 
@@ -197,25 +201,45 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.删除此条记录ToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(176, 56);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(169, 28);
             // 
             // 删除此条记录ToolStripMenuItem1
             // 
             this.删除此条记录ToolStripMenuItem1.Name = "删除此条记录ToolStripMenuItem1";
-            this.删除此条记录ToolStripMenuItem1.Size = new System.Drawing.Size(175, 24);
+            this.删除此条记录ToolStripMenuItem1.Size = new System.Drawing.Size(168, 24);
             this.删除此条记录ToolStripMenuItem1.Text = "删除此条记录";
             this.删除此条记录ToolStripMenuItem1.Click += new System.EventHandler(this.删除此条记录ToolStripMenuItem1_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.listView1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 45);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(748, 565);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "文本区域";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listView2);
+            this.groupBox2.Location = new System.Drawing.Point(766, 45);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(421, 565);
+            this.groupBox2.TabIndex = 11;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "图片区域";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1142, 640);
+            this.ClientSize = new System.Drawing.Size(1202, 640);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.listView2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
@@ -230,6 +254,8 @@
             this.menuStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +280,8 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem 删除此条记录ToolStripMenuItem1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
