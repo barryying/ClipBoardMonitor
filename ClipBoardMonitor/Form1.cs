@@ -241,7 +241,7 @@ namespace ClipBoardMonitor
                     }
                     if (!isdoubleclicked)
                     {
-                        if(similarcount > 0)
+                        if(similarcount > 1)
                         {
                             DialogResult dr = MessageBox.Show("程序为您辨别此次截图与已存在的" + similarcount + "条记录相似，是否继续保存?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
@@ -256,7 +256,12 @@ namespace ClipBoardMonitor
                                 return;
                             }
                         }
-                        
+                        else if (similarcount == 1)
+                        {
+                            //不保存
+                            this.label1.Text = "这项记录已存在！";
+                            return;
+                        }
                     }
                     else
                     {
