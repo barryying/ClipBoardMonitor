@@ -10,6 +10,7 @@ using System.IO;
 //using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,15 +34,43 @@ namespace ClipBoardMonitor
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
         #endregion
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll")] //申明API函数 
+        public static extern bool RegisterHotKey(
+         IntPtr hWnd, // handle to window   
+         int id, // hot key identifier   
+         uint fsModifiers, // key-modifier options   
+         Keys vk // virtual-key code   
+        );
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")] //申明API函数  
+        public static extern bool UnregisterHotKey(
+         IntPtr hWnd, // handle to window   
+         int id // hot key identifier   
+        );
+        public enum KeyModifiers //组合键枚举 
+        {
+            None = 0,
+            Alt = 1,
+            Control = 2,
+            Shift = 4,
+            Windows = 8
+        }
+
         private string imageDirectory = Application.StartupPath + "\\Images";
 
         string startuppath = Application.StartupPath.Replace(@"\\", @"\");
         RegistryKey RKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
         bool isdoubleclicked = false;
-        
+
         public Form1()
         {
             InitializeComponent();
+
+            //设定按字体来缩放控件
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //设定字体大小为12px     
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(134)));
 
             if (!Is64Bit())
             {
@@ -80,8 +109,19 @@ namespace ClipBoardMonitor
         #region 重写wndproc方法获取Message  定义热键使用
         protected override void WndProc(ref Message m)
         {
+            //如果m.Msg的值为0x0312那么表示用户按下了热键
+            const int WM_HOTKEY = 0x0312;
+
             switch (m.Msg)
             {
+                case WM_HOTKEY:
+                    {
+                        if (m.WParam.ToString() == "100")
+                        {
+                            GlobalKeyProcess();
+                        }
+                        break;
+                    }
                 case WM_DRAWCLIPBOARD:
                     {
                         //The clipboard has changed...
@@ -99,6 +139,9 @@ namespace ClipBoardMonitor
                         //显示剪贴板中的图片信息
                         if (Clipboard.ContainsImage())
                         {
+#if DEBUG
+                            Console.WriteLine(Clipboard.GetImage());
+#endif
                             AddPictureListView(Clipboard.GetImage());
                             //pictureBox1.Image = Clipboard.GetImage();
                             //pictureBox1.Update();
@@ -119,6 +162,7 @@ namespace ClipBoardMonitor
                         break;
                     }
             }
+            // 将系统消息传递自父类的WndProc
             base.WndProc(ref m);
         }
         #endregion
@@ -340,12 +384,21 @@ namespace ClipBoardMonitor
             isdoubleclicked = false;
         }
 
+        /// <summary>
+        /// 窗体关闭时处理程序
+        /// 窗体关闭时取消热键注册
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult dr = MessageBox.Show("退出后将只保留最后一条复制的内容，是否退出?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
             if (dr == DialogResult.OK)   //如果单击“是”按钮
             {
+                // 卸载热键
+                if(Handle != null)
+                    UnregisterHotKey(Handle, 100);
                 e.Cancel = false;                 //关闭窗体
             }
             else if (dr == DialogResult.Cancel)
@@ -620,5 +673,91 @@ namespace ClipBoardMonitor
             return retVal;
         }
         #endregion
+
+        private void 开始截图ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //96 DPI = 100% scaling
+            //120 DPI = 125 % scaling
+            //144 DPI = 150 % scaling
+            //192 DPI = 200 % scaling
+            // C# code to get dpi setting:
+            //float dpiX, dpiY;
+            //Graphics graphics = this.CreateGraphics();
+            //dpiX = graphics.DpiX;
+            //dpiY = graphics.DpiY;
+            float dpiX, dpiY;
+            dpiX = PrimaryScreen.ScaleX;
+            dpiY = PrimaryScreen.ScaleY;
+
+            this.Hide();   //隐藏当前窗体
+
+            Thread.Sleep(200);
+            //新建一个和屏幕大小相同的图片
+            Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY));
+            //Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY));
+
+
+            // 创建一个画板，让我们可以在画板上画图
+            // 这个画板也就是和屏幕大小一样大的图片
+            // 我们可以通过Graphics这个类在这个空白图片上画图
+            Graphics g = Graphics.FromImage(CatchBmp);
+
+            // 把屏幕图片拷贝到我们创建的空白图片 CatchBmp中
+            //g.CopyFromScreen(new Point(0, 0), new Point(0, 0), Screen.AllScreens[0].Bounds.Size);
+            g.CopyFromScreen(new Point(0, 0), new Point(0, 0), PrimaryScreen.DESKTOP);
+            //g.CopyFromScreen(new Point(0, 0), new Point(0, 0), new Size((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY)));
+
+            // 创建截图窗体
+            Cutter cutter = new Cutter();
+
+            // 指示窗体的背景图片为屏幕图片
+            cutter.BackgroundImage = CatchBmp;
+            // 显示窗体
+            //cutter.Show();
+            // 如果Cutter窗体结束，则从剪切板获得截取的图片，并显示在聊天窗体的发送框中
+            if (cutter.ShowDialog() == DialogResult.OK)
+            {
+                //IDataObject iData = Clipboard.GetDataObject();
+
+                //if (iData.GetDataPresent(DataFormats.Bitmap))
+                //{
+                //    richTextBox1.Paste();
+
+                //    // 清楚剪贴板的图片
+                //    Clipboard.Clear();
+                //}
+                label1.Text = "您已截取图片！";
+                this.Show();//重新显示窗体
+            }
+            else
+            {
+                label1.Text = "您取消了截取图片！";
+                this.Show();//重新显示窗体
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件处理
+        /// 在窗体加载时注册热键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            uint ctrlHotKey = (uint)(KeyModifiers.Control);
+            // 注册热键为Alt+Ctrl+C, "100"为唯一标识热键
+            RegisterHotKey(Handle, 100, ctrlHotKey, Keys.D1);
+        }
+
+
+        // 热键按下执行的方法
+        private void GlobalKeyProcess()
+        {
+            //this.WindowState = FormWindowState.Minimized;
+            // 窗口最小化也需要一定时间
+            Thread.Sleep(200);
+            开始截图ToolStripMenuItem.PerformClick();
+        }
+        
     }
 }
