@@ -752,6 +752,9 @@ namespace ClipBoardMonitor
             uint ctrlHotKey = (uint)(KeyModifiers.Control);
             // 注册热键为Alt+Ctrl+C, "100"为唯一标识热键
             RegisterHotKey(Handle, 100, ctrlHotKey, Keys.D1);
+
+            this.listView1.ListViewItemSorter = new ListViewColumnSorter();
+            this.listView1.ColumnClick += new ColumnClickEventHandler(ListViewHelper.ListView_ColumnClick);
         }
 
 
