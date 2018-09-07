@@ -58,6 +58,8 @@ namespace ClipBoardMonitor
         }
 
         private string imageDirectory = Application.StartupPath + "\\Images";
+        private string imageFavoriteDirectory = Application.StartupPath + "\\Favorite";
+        private string txtFavoriteDirectory = Application.StartupPath + "\\Favorite\\favorite.txt";
 
         string startuppath = Application.StartupPath.Replace(@"\\", @"\");
         RegistryKey RKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
@@ -97,6 +99,14 @@ namespace ClipBoardMonitor
             else
             {
                 DelectDir(imageDirectory);
+            }
+            if (!Directory.Exists(imageFavoriteDirectory))
+            {
+                Directory.CreateDirectory(imageFavoriteDirectory);
+            }
+            if(!File.Exists(txtFavoriteDirectory))
+            {
+                File.Create(txtFavoriteDirectory);
             }
             // 添加ListView表头标题
             this.listView1.Columns.Add("序号", 60, HorizontalAlignment.Left); //添加标题
@@ -766,6 +776,54 @@ namespace ClipBoardMonitor
             Thread.Sleep(200);
             开始截图ToolStripMenuItem.PerformClick();
         }
+
+        #region 收藏功能
+
+        private void 加入收藏ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.listView1.SelectedItems)
+            {
+                if (item.Selected)
+                {
+                    string value = item.SubItems[1].Text;
+                    //MessageBox.Show(value);
+                    FileStream fs = new FileStream(txtFavoriteDirectory, FileMode.Append);
+                    StreamWriter sw = new StreamWriter(fs);
+                    sw.WriteLine("--------------------------------------------------------------------------------------");
+                    sw.WriteLine(value);
+                    this.label1.Text = "您已将第 " + (item.Index + 1).ToString() + " 条记录加入了收藏！";
+                    sw.Close();
+                    fs.Close();
+                }
+            }
+        }
+
+        private void 加入收藏ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.listView2.SelectedItems)
+            {
+                if (item.Selected)
+                {
+                    string imageindex = (item.ImageIndex + 1).ToString();
+                    File.Copy(imageDirectory + "\\image" + imageindex + ".png", imageFavoriteDirectory + "\\image" + imageindex + ".png");
+                    this.label1.Text = "您已将 image" + imageindex + ".png 加入了收藏！";
+                }
+            }
+        }
         
+
+        private void 打开文本收藏夹ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("notepad", txtFavoriteDirectory);
+            this.label1.Text = "您打开了文本收藏夹！";
+        }
+
+        private void 打开图片收藏夹ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("ExpLorer", imageFavoriteDirectory);
+            this.label1.Text = "您打开了图片收藏夹！";
+        }
+        #endregion
+
     }
 }

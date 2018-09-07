@@ -36,6 +36,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.清空历史ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开图片存放位置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开收藏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开文本收藏夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开图片收藏夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.是否开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,9 +49,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除此条记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.加入收藏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除此条记录ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.加入收藏ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
@@ -97,6 +102,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.清空历史ToolStripMenuItem,
             this.打开图片存放位置ToolStripMenuItem,
+            this.打开收藏ToolStripMenuItem,
             this.是否开机启动ToolStripMenuItem,
             this.开始截图ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -118,6 +124,29 @@
             this.打开图片存放位置ToolStripMenuItem.Size = new System.Drawing.Size(141, 24);
             this.打开图片存放位置ToolStripMenuItem.Text = "打开图片存放位置";
             this.打开图片存放位置ToolStripMenuItem.Click += new System.EventHandler(this.打开图片存放位置ToolStripMenuItem_Click);
+            // 
+            // 打开收藏ToolStripMenuItem
+            // 
+            this.打开收藏ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开文本收藏夹ToolStripMenuItem,
+            this.打开图片收藏夹ToolStripMenuItem});
+            this.打开收藏ToolStripMenuItem.Name = "打开收藏ToolStripMenuItem";
+            this.打开收藏ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.打开收藏ToolStripMenuItem.Text = "打开收藏";
+            // 
+            // 打开文本收藏夹ToolStripMenuItem
+            // 
+            this.打开文本收藏夹ToolStripMenuItem.Name = "打开文本收藏夹ToolStripMenuItem";
+            this.打开文本收藏夹ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开文本收藏夹ToolStripMenuItem.Text = "打开文本收藏夹";
+            this.打开文本收藏夹ToolStripMenuItem.Click += new System.EventHandler(this.打开文本收藏夹ToolStripMenuItem_Click);
+            // 
+            // 打开图片收藏夹ToolStripMenuItem
+            // 
+            this.打开图片收藏夹ToolStripMenuItem.Name = "打开图片收藏夹ToolStripMenuItem";
+            this.打开图片收藏夹ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.打开图片收藏夹ToolStripMenuItem.Text = "打开图片收藏夹";
+            this.打开图片收藏夹ToolStripMenuItem.Click += new System.EventHandler(this.打开图片收藏夹ToolStripMenuItem_Click);
             // 
             // 是否开机启动ToolStripMenuItem
             // 
@@ -196,9 +225,10 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除此条记录ToolStripMenuItem});
+            this.删除此条记录ToolStripMenuItem,
+            this.加入收藏ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 28);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 52);
             // 
             // 删除此条记录ToolStripMenuItem
             // 
@@ -207,13 +237,21 @@
             this.删除此条记录ToolStripMenuItem.Text = "删除此条记录";
             this.删除此条记录ToolStripMenuItem.Click += new System.EventHandler(this.删除此条记录ToolStripMenuItem_Click);
             // 
+            // 加入收藏ToolStripMenuItem
+            // 
+            this.加入收藏ToolStripMenuItem.Name = "加入收藏ToolStripMenuItem";
+            this.加入收藏ToolStripMenuItem.Size = new System.Drawing.Size(168, 24);
+            this.加入收藏ToolStripMenuItem.Text = "加入收藏";
+            this.加入收藏ToolStripMenuItem.Click += new System.EventHandler(this.加入收藏ToolStripMenuItem_Click);
+            // 
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除此条记录ToolStripMenuItem1});
+            this.删除此条记录ToolStripMenuItem1,
+            this.加入收藏ToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(169, 28);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(169, 52);
             // 
             // 删除此条记录ToolStripMenuItem1
             // 
@@ -221,6 +259,13 @@
             this.删除此条记录ToolStripMenuItem1.Size = new System.Drawing.Size(168, 24);
             this.删除此条记录ToolStripMenuItem1.Text = "删除此条记录";
             this.删除此条记录ToolStripMenuItem1.Click += new System.EventHandler(this.删除此条记录ToolStripMenuItem1_Click);
+            // 
+            // 加入收藏ToolStripMenuItem1
+            // 
+            this.加入收藏ToolStripMenuItem1.Name = "加入收藏ToolStripMenuItem1";
+            this.加入收藏ToolStripMenuItem1.Size = new System.Drawing.Size(168, 24);
+            this.加入收藏ToolStripMenuItem1.Text = "加入收藏";
+            this.加入收藏ToolStripMenuItem1.Click += new System.EventHandler(this.加入收藏ToolStripMenuItem1_Click);
             // 
             // groupBox1
             // 
@@ -296,6 +341,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripMenuItem 开始截图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 加入收藏ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 加入收藏ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 打开收藏ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开文本收藏夹ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开图片收藏夹ToolStripMenuItem;
     }
 }
 
