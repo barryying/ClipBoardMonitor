@@ -175,6 +175,7 @@
             this.开始截图ToolStripMenuItem.Text = "开始截图(&Ctrl+1)";
             this.开始截图ToolStripMenuItem.ToolTipText = "按Ctrl+1进行截图操作";
             this.开始截图ToolStripMenuItem.Click += new System.EventHandler(this.开始截图ToolStripMenuItem_Click);
+            this.开始截图ToolStripMenuItem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.开始截图ToolStripMenuItem_MouseMove);
             // 
             // label1
             // 

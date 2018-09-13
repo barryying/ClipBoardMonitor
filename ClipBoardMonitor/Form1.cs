@@ -520,7 +520,7 @@ namespace ClipBoardMonitor
 
         private void 清空历史ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("清空后将不保留所有内容(包括本地存放的图片文件)，是否清空?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            DialogResult dr = MessageBox.Show("清空后将不保留所有内容(包括本地存放的图片文件，但收藏夹不会被清空)，是否清空?", "提示:", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
             if (dr == DialogResult.OK)   //如果单击“是”按钮
             {
@@ -597,7 +597,7 @@ namespace ClipBoardMonitor
             ListViewItem item = this.listView1.GetItemAt(e.X, e.Y);
             if (item != null)
             {
-                toolTip1.Show(item.SubItems[1].Text, listView1, new Point(e.X + 15, e.Y + 15), 1000);
+                toolTip1.Show(item.SubItems[1].Text, listView1, new Point(e.X + 15, e.Y + 15), 10000); //参数duration设置为大一点可以避免tooltip连续闪烁
                 toolTip1.Active = true;
             }
             else
@@ -751,6 +751,12 @@ namespace ClipBoardMonitor
             }
         }
 
+        private void 开始截图ToolStripMenuItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.Show("截图说明：点击此处或按Ctrl+1进行截图操作，开始后按住左键拖动截图区域，松开后双击截图区域完成截图，右键取消截图。", menuStrip1, new Point(e.X + 115, e.Y + 15), 10000); //参数duration设置为大一点可以避免tooltip连续闪烁
+            toolTip1.Active = true;
+        }
+
         /// <summary>
         /// 窗体加载事件处理
         /// 在窗体加载时注册热键
@@ -824,6 +830,6 @@ namespace ClipBoardMonitor
             this.label1.Text = "您打开了图片收藏夹！";
         }
         #endregion
-
+        
     }
 }
