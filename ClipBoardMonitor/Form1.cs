@@ -214,7 +214,7 @@ namespace ClipBoardMonitor
                 lvi.SubItems.Add(value);
                 this.listView1.Items.Add(lvi);
 
-                this.label1.Text = "添加了一个文本！";
+                this.label1.Text = "添加了一个文本: \"" + value.Substring(0, value.Length > 10 ? 10 : value.Length) + "....\"！";
                 this.listView1.EndUpdate();  //结束数据处理，UI界面一次性绘制。
 
                 // ListView获取焦点
@@ -582,6 +582,7 @@ namespace ClipBoardMonitor
                 if (item.Selected)
                 {
                     item.Remove();
+                    this.label1.Text = "您已将 \"" + item.SubItems[1].Text.Substring(0, item.SubItems[1].Text.Length > 10 ? 10 : item.SubItems[1].Text.Length) + "....\" 删除了！";
                 }
             }
             //重新排序
@@ -666,6 +667,7 @@ namespace ClipBoardMonitor
                     item.Remove();
                     string imageindex = (item.ImageIndex + 1).ToString();
                     File.Delete(imageDirectory + "\\image" + imageindex + ".png");
+                    this.label1.Text = "您已将 image" + imageindex + ".png 删除了！";
                 }
             }
             ////重新排序
@@ -785,6 +787,23 @@ namespace ClipBoardMonitor
 
         #region 收藏功能
 
+        //参数：
+        //  string dir 指定的文件夹
+        //  string ext 文件类型的扩展名，如".txt" , “.exe"
+        static int GetFileCount(string dir, string ext)
+        {
+            int count = 0;
+            DirectoryInfo d = new DirectoryInfo(dir);
+            foreach (FileInfo fi in d.GetFiles())
+            {
+                if (fi.Extension.ToUpper() == ext.ToUpper())
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         private void 加入收藏ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in this.listView1.SelectedItems)
@@ -809,10 +828,10 @@ namespace ClipBoardMonitor
             foreach (ListViewItem item in this.listView2.SelectedItems)
             {
                 if (item.Selected)
-                {
+                {                    
                     string imageindex = (item.ImageIndex + 1).ToString();
-                    File.Copy(imageDirectory + "\\image" + imageindex + ".png", imageFavoriteDirectory + "\\image" + imageindex + ".png");
-                    this.label1.Text = "您已将 image" + imageindex + ".png 加入了收藏！";
+                    File.Copy(imageDirectory + "\\image" + imageindex + ".png", imageFavoriteDirectory + "\\favoriteimage" + (GetFileCount(imageFavoriteDirectory, ".png") + 1) + ".png");
+                    this.label1.Text = "您已将 favoriteimage" + GetFileCount(imageFavoriteDirectory, ".png") + ".png 加入了收藏！";
                 }
             }
         }
