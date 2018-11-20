@@ -57,6 +57,9 @@ namespace ClipBoardMonitor
             Windows = 8
         }
 
+        private string cityName = "深圳";
+        cn.com.webxml.www.WeatherWebService wws = new cn.com.webxml.www.WeatherWebService();
+
         private string imageDirectory = Application.StartupPath + "\\Images";
         private string imageFavoriteDirectory = Application.StartupPath + "\\Favorite";
         private string txtFavoriteDirectory = Application.StartupPath + "\\Favorite\\favorite.txt";
@@ -411,6 +414,7 @@ namespace ClipBoardMonitor
 
             if (dr == DialogResult.OK)   //如果单击“是”按钮
             {
+                this.timer1.Stop();
                 // 卸载热键
                 if(Handle != null)
                     UnregisterHotKey(Handle, 100);
@@ -773,8 +777,45 @@ namespace ClipBoardMonitor
 
             this.listView1.ListViewItemSorter = new ListViewColumnSorter();
             this.listView1.ColumnClick += new ColumnClickEventHandler(ListViewHelper.ListView_ColumnClick);
+
+            this.Text += "/" + System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\')[1] + " - ";
+            this.timer1.Start();
+            this.timer1.Interval = 9000000;
+            this.Text = this.Text.Split('-')[0];
+            this.Text += " -  " + getWeather(cityName);
         }
 
+        #region 获取天气预报
+        /// <summary>
+        /// 获取天气预报
+        /// </summary>
+        /// <param name="theCityName">所在城市</param>
+        /// <returns></returns>
+        private string getWeather(string theCityName)
+        {
+            try
+            {
+                string[] arr = wws.getWeatherbyCityName(theCityName);
+                //for(int i = 0; i < arr.Length; i++)
+                //{
+                //    weather += arr[i] + "\r\n";
+                //}
+                string weather = arr[0] + arr[1] + " " + arr[6] + " " + arr[5];
+                return weather;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return "网络未连接...";
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.Text = this.Text.Split('-')[0];
+            this.Text += " -  " + getWeather(cityName);
+        }
+        #endregion
 
         // 热键按下执行的方法
         private void GlobalKeyProcess()
@@ -849,6 +890,38 @@ namespace ClipBoardMonitor
             this.label1.Text = "您打开了图片收藏夹！";
         }
         #endregion
-        
+
+        #region 设置城市窗体功能
+        public class GenericSingleton<T> where T : Form, new()
+        {
+            private static T t = null;
+            public static T CreateInstrance()
+            {
+                if (null == t || t.IsDisposed)
+                {
+                    t = new T();
+                }
+                return t;
+            }
+        }
+
+        private void 设置城市ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //第四步：将要实现的方法绑定到委托事件
+            SetCityName setcityname = GenericSingleton<SetCityName>.CreateInstrance();
+            setcityname.MyEvent += new SetCityName.MyDelegate(b_MyEvent);//监听b窗体事件
+            setcityname.ShowDialog();
+        }
+
+        //第三步：实现要做的事情
+        void b_MyEvent(string SetCityName_cityName)
+        {
+            cityName = SetCityName_cityName;
+            //MessageBox.Show(message);
+            //这里是刷新窗体的方法
+            this.Text = this.Text.Split('-')[0];
+            this.Text += " -  " + getWeather(cityName);
+        }
+        #endregion
     }
 }

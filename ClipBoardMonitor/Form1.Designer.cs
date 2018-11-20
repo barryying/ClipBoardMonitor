@@ -56,6 +56,8 @@
             this.加入收藏ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.设置城市ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -104,7 +106,8 @@
             this.打开图片存放位置ToolStripMenuItem,
             this.打开收藏ToolStripMenuItem,
             this.是否开机启动ToolStripMenuItem,
-            this.开始截图ToolStripMenuItem});
+            this.开始截图ToolStripMenuItem,
+            this.设置城市ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1197, 28);
@@ -288,6 +291,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "图片区域";
             // 
+            // 设置城市ToolStripMenuItem
+            // 
+            this.设置城市ToolStripMenuItem.Name = "设置城市ToolStripMenuItem";
+            this.设置城市ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.设置城市ToolStripMenuItem.Text = "设置城市";
+            this.设置城市ToolStripMenuItem.Click += new System.EventHandler(this.设置城市ToolStripMenuItem_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -347,6 +362,8 @@
         private System.Windows.Forms.ToolStripMenuItem 打开收藏ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开文本收藏夹ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开图片收藏夹ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 设置城市ToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

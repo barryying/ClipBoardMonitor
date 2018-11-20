@@ -22,5 +22,15 @@ namespace ClipBoardMonitor.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.webxml.com.cn/WebServices/WeatherWebService.asmx")]
+        public string ClipBoardMonitor_cn_com_webxml_www_WeatherWebService {
+            get {
+                return ((string)(this["ClipBoardMonitor_cn_com_webxml_www_WeatherWebService"]));
+            }
+        }
     }
 }

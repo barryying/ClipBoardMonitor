@@ -11,3 +11,4 @@ C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\bin\Debug\ClipBoa
 C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.exe
 C:\Users\TaoYing\Source\Repos\新建文件夹\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.pdb
 C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.Cutter.resources
+C:\Users\TaoYing\Source\Repos\ClipBoardMonitor\ClipBoardMonitor\obj\Debug\ClipBoardMonitor.SetCityName.resources
