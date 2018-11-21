@@ -58,7 +58,6 @@ namespace ClipBoardMonitor
             //第五步：触发事件
             if (MyEvent != null)      //确保事件在Form1中已被绑定
                 MyEvent(cityName);   //触发事件
-            this.Hide();
         }
     }
 }

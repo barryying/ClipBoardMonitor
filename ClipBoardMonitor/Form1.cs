@@ -805,8 +805,8 @@ namespace ClipBoardMonitor
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return "网络未连接...";
+                //MessageBox.Show("网络未连接..." + ex.Message);
+                return "网络未连接..." + ex.Message;
             }
         }
 
