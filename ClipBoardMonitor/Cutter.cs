@@ -160,15 +160,15 @@ namespace ClipBoardMonitor
                 Pen p = new Pen(Color.OrangeRed, 2);
 
                 // 获取矩形的长宽
-                int width = Math.Abs(e.X - DownPoint.X);
-                int height = Math.Abs(e.Y - DownPoint.Y);
-                if (e.X < DownPoint.X)
+                int width = Math.Abs(Control.MousePosition.X - DownPoint.X);
+                int height = Math.Abs(Control.MousePosition.Y - DownPoint.Y);
+                if (Control.MousePosition.X < DownPoint.X)
                 {
-                    newPoint.X = e.X;
+                    newPoint.X = Control.MousePosition.X;
                 }
-                if (e.Y < DownPoint.Y)
+                if (Control.MousePosition.Y < DownPoint.Y)
                 {
-                    newPoint.Y = e.Y;
+                    newPoint.Y = Control.MousePosition.Y;
                 }
 
                 CatchRectangle = new Rectangle(newPoint, new Size(width, height));

@@ -716,8 +716,7 @@ namespace ClipBoardMonitor
             //新建一个和屏幕大小相同的图片
             Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY));
             //Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width), (int)(Screen.AllScreens[0].Bounds.Height));
-
-
+            
             // 创建一个画板，让我们可以在画板上画图
             // 这个画板也就是和屏幕大小一样大的图片
             // 我们可以通过Graphics这个类在这个空白图片上画图
