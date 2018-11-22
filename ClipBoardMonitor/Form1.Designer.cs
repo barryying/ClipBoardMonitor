@@ -42,6 +42,7 @@
             this.是否开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置城市ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.listView2 = new System.Windows.Forms.ListView();
@@ -56,7 +57,6 @@
             this.加入收藏ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.设置城市ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -178,7 +178,15 @@
             this.开始截图ToolStripMenuItem.Text = "开始截图(&Ctrl+1)";
             this.开始截图ToolStripMenuItem.ToolTipText = "按Ctrl+1进行截图操作";
             this.开始截图ToolStripMenuItem.Click += new System.EventHandler(this.开始截图ToolStripMenuItem_Click);
+            this.开始截图ToolStripMenuItem.MouseLeave += new System.EventHandler(this.开始截图ToolStripMenuItem_MouseLeave);
             this.开始截图ToolStripMenuItem.MouseMove += new System.Windows.Forms.MouseEventHandler(this.开始截图ToolStripMenuItem_MouseMove);
+            // 
+            // 设置城市ToolStripMenuItem
+            // 
+            this.设置城市ToolStripMenuItem.Name = "设置城市ToolStripMenuItem";
+            this.设置城市ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.设置城市ToolStripMenuItem.Text = "设置城市";
+            this.设置城市ToolStripMenuItem.Click += new System.EventHandler(this.设置城市ToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -290,13 +298,6 @@
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "图片区域";
-            // 
-            // 设置城市ToolStripMenuItem
-            // 
-            this.设置城市ToolStripMenuItem.Name = "设置城市ToolStripMenuItem";
-            this.设置城市ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.设置城市ToolStripMenuItem.Text = "设置城市";
-            this.设置城市ToolStripMenuItem.Click += new System.EventHandler(this.设置城市ToolStripMenuItem_Click);
             // 
             // timer1
             // 

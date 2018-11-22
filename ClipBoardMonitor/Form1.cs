@@ -712,10 +712,10 @@ namespace ClipBoardMonitor
 
             this.Hide();   //隐藏当前窗体
 
-            Thread.Sleep(200);
+            Thread.Sleep(400);
             //新建一个和屏幕大小相同的图片
             Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY));
-            //Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width * dpiX), (int)(Screen.AllScreens[0].Bounds.Height * dpiY));
+            //Bitmap CatchBmp = new Bitmap((int)(Screen.AllScreens[0].Bounds.Width), (int)(Screen.AllScreens[0].Bounds.Height));
 
 
             // 创建一个画板，让我们可以在画板上画图
@@ -761,6 +761,11 @@ namespace ClipBoardMonitor
         {
             toolTip1.Show("截图说明：点击此处或按Ctrl+1进行截图操作，开始后按住左键拖动截图区域，松开后双击截图区域完成截图，右键取消截图。", menuStrip1, new Point(e.X + 115, e.Y + 15), 10000); //参数duration设置为大一点可以避免tooltip连续闪烁
             toolTip1.Active = true;
+        }
+
+        private void 开始截图ToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+            toolTip1.Active = false;
         }
 
         /// <summary>
@@ -923,5 +928,6 @@ namespace ClipBoardMonitor
             this.Text += " -  " + getWeather(cityName);
         }
         #endregion
+
     }
 }
