@@ -29,35 +29,40 @@ namespace ClipBoardMonitor
         //第二步：声明一个事件
         public event MyDelegate MyEvent;
 
+        private string provinceName = "";
         private string cityName = "";
         cn.com.webxml.www.WeatherWebService wws = new cn.com.webxml.www.WeatherWebService();
-        
+
         private void SetCityName_Load(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedItem == null)
+            if (comboBox1.SelectedItem == null)
             {
                 string[] arr = wws.getSupportProvince();
                 comboBox1.DataSource = arr;
             }
+            comboBox1.SelectedItem = AppConfigHelper.GetConfigValue("provincename");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string[] arr = wws.getSupportCity(comboBox1.SelectedItem.ToString());
             comboBox2.DataSource = arr;
+            comboBox1.SelectedItem = AppConfigHelper.GetConfigValue("cityname");
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cityName = comboBox2.SelectedItem.ToString().Split(' ')[0];
-            label3.Text = "当前城市为：" + cityName;
+            provinceName = comboBox1.SelectedItem.ToString();
+            cityName = comboBox2.SelectedItem.ToString();
+            label3.Text = "当前城市为：" + provinceName + "," + cityName.Split(' ')[0];
         }
         
         private void SetCityName_FormClosing(object sender, FormClosingEventArgs e)
         {
             //第五步：触发事件
             if (MyEvent != null)      //确保事件在Form1中已被绑定
-                MyEvent(cityName);   //触发事件
+                MyEvent(provinceName + "," + cityName);   //触发事件
         }
+
     }
 }

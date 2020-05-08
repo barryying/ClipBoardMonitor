@@ -41,6 +41,7 @@
             this.打开图片收藏夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.是否开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开机启动ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.开启剪贴板功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置城市ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
@@ -58,6 +59,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.复制此条记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.复制此条记录ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -154,10 +157,11 @@
             // 是否开机启动ToolStripMenuItem
             // 
             this.是否开机启动ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.开机启动ToolStripMenuItem});
+            this.开机启动ToolStripMenuItem,
+            this.开启剪贴板功能ToolStripMenuItem});
             this.是否开机启动ToolStripMenuItem.Name = "是否开机启动ToolStripMenuItem";
-            this.是否开机启动ToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
-            this.是否开机启动ToolStripMenuItem.Text = "是否开机启动";
+            this.是否开机启动ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.是否开机启动ToolStripMenuItem.Text = "开关设置";
             // 
             // 开机启动ToolStripMenuItem
             // 
@@ -165,9 +169,19 @@
             this.开机启动ToolStripMenuItem.CheckOnClick = true;
             this.开机启动ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.开机启动ToolStripMenuItem.Name = "开机启动ToolStripMenuItem";
-            this.开机启动ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
-            this.开机启动ToolStripMenuItem.Text = "开机启动";
+            this.开机启动ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.开机启动ToolStripMenuItem.Text = "是否开机启动";
             this.开机启动ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.开机启动ToolStripMenuItem_CheckedChanged);
+            // 
+            // 开启剪贴板功能ToolStripMenuItem
+            // 
+            this.开启剪贴板功能ToolStripMenuItem.Checked = true;
+            this.开启剪贴板功能ToolStripMenuItem.CheckOnClick = true;
+            this.开启剪贴板功能ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.开启剪贴板功能ToolStripMenuItem.Name = "开启剪贴板功能ToolStripMenuItem";
+            this.开启剪贴板功能ToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.开启剪贴板功能ToolStripMenuItem.Text = "开启剪贴板功能";
+            this.开启剪贴板功能ToolStripMenuItem.CheckedChanged += new System.EventHandler(this.开启剪贴板功能ToolStripMenuItem_CheckedChanged);
             // 
             // 开始截图ToolStripMenuItem
             // 
@@ -237,22 +251,23 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.复制此条记录ToolStripMenuItem,
             this.删除此条记录ToolStripMenuItem,
             this.加入收藏ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 76);
             // 
             // 删除此条记录ToolStripMenuItem
             // 
             this.删除此条记录ToolStripMenuItem.Name = "删除此条记录ToolStripMenuItem";
-            this.删除此条记录ToolStripMenuItem.Size = new System.Drawing.Size(168, 24);
+            this.删除此条记录ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
             this.删除此条记录ToolStripMenuItem.Text = "删除此条记录";
             this.删除此条记录ToolStripMenuItem.Click += new System.EventHandler(this.删除此条记录ToolStripMenuItem_Click);
             // 
             // 加入收藏ToolStripMenuItem
             // 
             this.加入收藏ToolStripMenuItem.Name = "加入收藏ToolStripMenuItem";
-            this.加入收藏ToolStripMenuItem.Size = new System.Drawing.Size(168, 24);
+            this.加入收藏ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
             this.加入收藏ToolStripMenuItem.Text = "加入收藏";
             this.加入收藏ToolStripMenuItem.Click += new System.EventHandler(this.加入收藏ToolStripMenuItem_Click);
             // 
@@ -260,10 +275,11 @@
             // 
             this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.复制此条记录ToolStripMenuItem1,
             this.删除此条记录ToolStripMenuItem1,
             this.加入收藏ToolStripMenuItem1});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(169, 52);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(176, 104);
             // 
             // 删除此条记录ToolStripMenuItem1
             // 
@@ -303,6 +319,20 @@
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // 复制此条记录ToolStripMenuItem
+            // 
+            this.复制此条记录ToolStripMenuItem.Name = "复制此条记录ToolStripMenuItem";
+            this.复制此条记录ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.复制此条记录ToolStripMenuItem.Text = "复制此条记录";
+            this.复制此条记录ToolStripMenuItem.Click += new System.EventHandler(this.复制此条记录ToolStripMenuItem_Click);
+            // 
+            // 复制此条记录ToolStripMenuItem1
+            // 
+            this.复制此条记录ToolStripMenuItem1.Name = "复制此条记录ToolStripMenuItem1";
+            this.复制此条记录ToolStripMenuItem1.Size = new System.Drawing.Size(175, 24);
+            this.复制此条记录ToolStripMenuItem1.Text = "复制此条记录";
+            this.复制此条记录ToolStripMenuItem1.Click += new System.EventHandler(this.复制此条记录ToolStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -365,6 +395,9 @@
         private System.Windows.Forms.ToolStripMenuItem 打开图片收藏夹ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 设置城市ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem 开启剪贴板功能ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制此条记录ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制此条记录ToolStripMenuItem1;
     }
 }
 

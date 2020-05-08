@@ -57,7 +57,7 @@ namespace ClipBoardMonitor
             Windows = 8
         }
 
-        private string cityName = "深圳";
+        private string provinceAndcityName = AppConfigHelper.GetConfigValue("cityname");
         cn.com.webxml.www.WeatherWebService wws = new cn.com.webxml.www.WeatherWebService();
 
         private string imageDirectory = Application.StartupPath + "\\Images";
@@ -67,6 +67,8 @@ namespace ClipBoardMonitor
         string startuppath = Application.StartupPath.Replace(@"\\", @"\");
         RegistryKey RKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
         bool isdoubleclicked = false;
+
+        private Boolean isPause = true;
 
         public Form1()
         {
@@ -137,27 +139,30 @@ namespace ClipBoardMonitor
                     }
                 case WM_DRAWCLIPBOARD:
                     {
-                        //The clipboard has changed...
-                        //##########################################################################
-                        // Process Clipboard Here :)........................
-                        //##########################################################################
-                        SendMessage(mNextClipBoardViewerHWnd, m.Msg, m.WParam.ToInt32(), m.LParam.ToInt32());
+                        if (isPause)
+                        {
+                            //The clipboard has changed...
+                            //##########################################################################
+                            // Process Clipboard Here :)........................
+                            //##########################################################################
+                            SendMessage(mNextClipBoardViewerHWnd, m.Msg, m.WParam.ToInt32(), m.LParam.ToInt32());
 
-                        //显示剪贴板中的文本信息
-                        if (Clipboard.ContainsText())
-                        {
-                            AddTxtListView(Clipboard.GetText());
-                            richTextBox1.Text = Clipboard.GetText();
-                        }
-                        //显示剪贴板中的图片信息
-                        if (Clipboard.ContainsImage())
-                        {
+                            //显示剪贴板中的文本信息
+                            if (Clipboard.ContainsText())
+                            {
+                                AddTxtListView(Clipboard.GetText());
+                                richTextBox1.Text = Clipboard.GetText();
+                            }
+                            //显示剪贴板中的图片信息
+                            if (Clipboard.ContainsImage())
+                            {
 #if DEBUG
-                            Console.WriteLine(Clipboard.GetImage());
+                                Console.WriteLine(Clipboard.GetImage());
 #endif
-                            AddPictureListView(Clipboard.GetImage());
-                            //pictureBox1.Image = Clipboard.GetImage();
-                            //pictureBox1.Update();
+                                AddPictureListView(Clipboard.GetImage());
+                                //pictureBox1.Image = Clipboard.GetImage();
+                                //pictureBox1.Update();
+                            }
                         }
                         break;
                     }
@@ -290,7 +295,7 @@ namespace ClipBoardMonitor
                 image.Save(imageDirectory + "\\image" + (imageList1.Images.Count + 1).ToString() + ".png", System.Drawing.Imaging.ImageFormat.Png);
                 imageList1.ImageSize = new Size(256, 120);
                 imageList1.ColorDepth = ColorDepth.Depth32Bit;
-                this.imageList1.Images.Add(image);
+                this.imageList1.Images.Add(resizeImage(image, new Size(390, 160)));
                 //imageList1.Images[imageList1.Images.Count - 1].Tag = imageList1.Images.Count;
 
                 listView2.LargeImageList = imageList1;
@@ -305,6 +310,39 @@ namespace ClipBoardMonitor
                 // ListView获取焦点
                 listView2.Focus();
             }
+        }
+
+        private static Image resizeImage(Image imgToResize, Size size)
+        {
+            //获取图片宽度
+            int sourceWidth = imgToResize.Width;
+            //获取图片高度
+            int sourceHeight = imgToResize.Height;
+
+            float nPercent = 0;
+            float nPercentW = 0;
+            float nPercentH = 0;
+            //计算宽度的缩放比例
+            nPercentW = ((float)size.Width / (float)sourceWidth);
+            //计算高度的缩放比例
+            nPercentH = ((float)size.Height / (float)sourceHeight);
+
+            if (nPercentH < nPercentW)
+                nPercent = nPercentH;
+            else
+                nPercent = nPercentW;
+            //期望的宽度
+            int destWidth = (int)(sourceWidth * nPercent);
+            //期望的高度
+            int destHeight = (int)(sourceHeight * nPercent);
+
+            Bitmap b = new Bitmap(destWidth, destHeight);
+            Graphics g = Graphics.FromImage((Image)b);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //绘制图像
+            g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
+            g.Dispose();
+            return (Image)b;
         }
 
         // 测试代码
@@ -351,55 +389,12 @@ namespace ClipBoardMonitor
         }
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
-            if (this.listView1.SelectedItems.Count == 0)
-                return;
-
-            //前提，listview禁止多选
-            ListViewItem currentRow = listView1.SelectedItems[0];
-            Clipboard.SetDataObject(currentRow.SubItems[1].Text,true);
-            this.label1.Text = "已复制到剪贴板！";
+            复制此条记录ToolStripMenuItem_Click(sender, e);
         }
 
         private void listView2_DoubleClick(object sender, EventArgs e)
         {
-            if (this.listView2.SelectedItems.Count == 0)
-                return;
-
-            //标记双击
-            isdoubleclicked = true;
-            //前提，listview禁止多选
-            ListViewItem currentRow = listView2.SelectedItems[0];
-            //Image image = currentRow.ImageList.Images[currentRow.ImageIndex];
-
-            string imagePath = imageDirectory + "\\image" + (currentRow.ImageIndex + 1).ToString() + ".png";
-
-            FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-            Image image = Image.FromStream(fs);
-            fs.Close();
-
-            //建立新的系统进程    
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //设置文件名，此处为图片的真实路径+文件名    
-            process.StartInfo.FileName = imagePath;
-            //此为关键部分。设置进程运行参数，此时为最大化窗口显示图片。    
-            process.StartInfo.Arguments = "rundll32.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen";
-            //此项为是否使用Shell执行程序，因系统默认为true，此项也可不设，但若设置必须为true    
-            process.StartInfo.UseShellExecute = true;
-            //此处可以更改进程所打开窗体的显示样式，可以不设    
-            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
-            process.Start();
-            process.Dispose();
-
-            //image = pictureProcess(image, 1000, 600);
-            //image = resizeImage(image, new Size(1000, 600));
-            Clipboard.SetImage(image);
-            //Form2 f2 = new Form2();
-            //f2.Form2Value = image;
-            //f2.ShowDialog();
-            //pictureBox1.Image = image;
-            //pictureBox1.Update();
-            this.label1.Text = "已复制到剪贴板！";
-            isdoubleclicked = false;
+            复制此条记录ToolStripMenuItem1_Click(sender, e);
         }
 
         /// <summary>
@@ -425,38 +420,38 @@ namespace ClipBoardMonitor
                 e.Cancel = true;                  //不执行操作
             }
         }
-        private static Image resizeImage(Image imgToResize, Size size)
-        {
-            //获取图片宽度
-            int sourceWidth = imgToResize.Width;
-            //获取图片高度
-            int sourceHeight = imgToResize.Height;
+        //private static Image resizeImage(Image imgToResize, Size size)
+        //{
+        //    //获取图片宽度
+        //    int sourceWidth = imgToResize.Width;
+        //    //获取图片高度
+        //    int sourceHeight = imgToResize.Height;
 
-            float nPercent = 0;
-            float nPercentW = 0;
-            float nPercentH = 0;
-            //计算宽度的缩放比例
-            nPercentW = ((float)size.Width / (float)sourceWidth);
-            //计算高度的缩放比例
-            nPercentH = ((float)size.Height / (float)sourceHeight);
+        //    float nPercent = 0;
+        //    float nPercentW = 0;
+        //    float nPercentH = 0;
+        //    //计算宽度的缩放比例
+        //    nPercentW = ((float)size.Width / (float)sourceWidth);
+        //    //计算高度的缩放比例
+        //    nPercentH = ((float)size.Height / (float)sourceHeight);
 
-            if (nPercentH < nPercentW)
-                nPercent = nPercentH;
-            else
-                nPercent = nPercentW;
-            //期望的宽度
-            int destWidth = (int)(sourceWidth * nPercent);
-            //期望的高度
-            int destHeight = (int)(sourceHeight * nPercent);
+        //    if (nPercentH < nPercentW)
+        //        nPercent = nPercentH;
+        //    else
+        //        nPercent = nPercentW;
+        //    //期望的宽度
+        //    int destWidth = (int)(sourceWidth * nPercent);
+        //    //期望的高度
+        //    int destHeight = (int)(sourceHeight * nPercent);
 
-            Bitmap b = new Bitmap(destWidth, destHeight);
-            Graphics g = Graphics.FromImage((System.Drawing.Image)b);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //绘制图像
-            g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
-            g.Dispose();
-            return b;
-        }
+        //    Bitmap b = new Bitmap(destWidth, destHeight);
+        //    Graphics g = Graphics.FromImage((System.Drawing.Image)b);
+        //    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        //    //绘制图像
+        //    g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
+        //    g.Dispose();
+        //    return b;
+        //}
         public static bool ImageCompareString(Image firstImage, Image secondImage)
         {
             MemoryStream ms = new MemoryStream();
@@ -596,7 +591,18 @@ namespace ClipBoardMonitor
             }
             listView1.Refresh(); //删除结束后刷新listView
         }
-        
+
+        private void 复制此条记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.listView1.SelectedItems.Count == 0)
+                return;
+
+            //前提，listview禁止多选
+            ListViewItem currentRow = listView1.SelectedItems[0];
+            Clipboard.SetDataObject(currentRow.SubItems[1].Text, true);
+            this.label1.Text = "已复制到剪贴板！";
+        }
+
         private void listView1_MouseMove(object sender, MouseEventArgs e)
         {
             ListViewItem item = this.listView1.GetItemAt(e.X, e.Y);
@@ -680,6 +686,48 @@ namespace ClipBoardMonitor
             //    listView2.Items[i].ImageIndex = i;
             //}
             listView2.Refresh(); //删除结束后刷新listView
+        }
+        private void 复制此条记录ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            if (this.listView2.SelectedItems.Count == 0)
+                return;
+
+            //标记双击
+            isdoubleclicked = true;
+            //前提，listview禁止多选
+            ListViewItem currentRow = listView2.SelectedItems[0];
+            //Image image = currentRow.ImageList.Images[currentRow.ImageIndex];
+
+            string imagePath = imageDirectory + "\\image" + (currentRow.ImageIndex + 1).ToString() + ".png";
+
+            FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+            Image image = Image.FromStream(fs);
+            fs.Close();
+
+            //建立新的系统进程    
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            //设置文件名，此处为图片的真实路径+文件名    
+            process.StartInfo.FileName = imagePath;
+            //此为关键部分。设置进程运行参数，此时为最大化窗口显示图片。    
+            process.StartInfo.Arguments = "rundll32.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen";
+            //此项为是否使用Shell执行程序，因系统默认为true，此项也可不设，但若设置必须为true    
+            process.StartInfo.UseShellExecute = true;
+            //此处可以更改进程所打开窗体的显示样式，可以不设    
+            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+            process.Start();
+            process.Dispose();
+
+            //image = pictureProcess(image, 1000, 600);
+            //image = resizeImage(image, new Size(1000, 600));
+            Clipboard.SetImage(image);
+            //Form2 f2 = new Form2();
+            //f2.Form2Value = image;
+            //f2.ShowDialog();
+            //pictureBox1.Image = image;
+            //pictureBox1.Update();
+            this.label1.Text = "已复制到剪贴板！";
+            isdoubleclicked = false;
         }
 
         #region 判断系统是x86还是x64位
@@ -786,7 +834,7 @@ namespace ClipBoardMonitor
             this.timer1.Start();
             this.timer1.Interval = 9000000;
             this.Text = this.Text.Split('-')[0];
-            this.Text += " -  " + getWeather(cityName);
+            this.Text += " -  " + getWeather(provinceAndcityName);
         }
 
         #region 获取天气预报
@@ -817,7 +865,7 @@ namespace ClipBoardMonitor
         private void timer1_Tick(object sender, EventArgs e)
         {
             this.Text = this.Text.Split('-')[0];
-            this.Text += " -  " + getWeather(cityName);
+            this.Text += " -  " + getWeather(provinceAndcityName);
         }
         #endregion
 
@@ -918,15 +966,30 @@ namespace ClipBoardMonitor
         }
 
         //第三步：实现要做的事情
-        void b_MyEvent(string SetCityName_cityName)
+        void b_MyEvent(string SetCityName_provinceAndcityName)
         {
-            cityName = SetCityName_cityName;
+            provinceAndcityName = SetCityName_provinceAndcityName;
             //MessageBox.Show(message);
             //这里是刷新窗体的方法
             this.Text = this.Text.Split('-')[0];
-            this.Text += " -  " + getWeather(cityName);
+            this.Text += " -  " + getWeather(provinceAndcityName.Split(',')[1].Split(' ')[0]);
+            AppConfigHelper.SetConfigValue(provinceAndcityName.Split(',')[0], provinceAndcityName.Split(',')[1]);
         }
         #endregion
+
+        private void 开启剪贴板功能ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (开启剪贴板功能ToolStripMenuItem.Checked == false)
+            {
+                isPause = false;
+                this.label1.Text = "您关闭了剪贴板功能！";
+            }
+            else
+            {
+                isPause = true;
+                this.label1.Text = "您开启了剪贴板功能！";
+            }
+        }
 
     }
 }

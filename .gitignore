@@ -2,8 +2,8 @@
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
-/.vs/config/applicationhost.config
+/.vs
 /bin
 /obj
-/.vs
-/ClipBoardMonitor/bin/Debug/Favorite
+/ClipBoardMonitor/bin
+/ClipBoardMonitor/obj
